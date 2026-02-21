@@ -1,0 +1,1577 @@
+============================================================
+
+## TABLE_OF_CONTENTS
+
+============================================================
+01 LINUX_OVERVIEW
+02 COMPARING_LINUX_IOS_OPENBSD
+03 KERNEL
+04 LINUX_KERNEL_LANGUAGE
+05 LINUX_HARDWARE_SUPPORT
+06 LINUX_DISTRIBUTIONS
+07 ENTERPRISE_AND_GAMING_LINUX_DISTRIBUTIONS
+08 OTHER_LINUX_DISTRIBUTIONS_WITH_SPECIFIC_AND_NOVEL_PURPOSES
+09 SOFTWARE_LICENSES_AND_LINUX
+10 GPL
+11 MIT_LICENSE
+12 GPL_VS_MIT
+13 HOW_BIG_VENDORS_USE_LINUX
+14 LINUX_AND_CLOUD_COMPUTING
+15 LINUX_AS_THE_FOUNDATION_OF_THE_CLOUD
+16 LAMP_STACK
+17 INSTALLATION_MEDIA
+18 COMMON_INSTALLATION_MEDIA
+19 DECIDING_INSTALLATION_MEDIA
+20 PARTITION_TABLES
+21 MBR
+22 GPT
+23 UEFI
+24 FILE_SYSTEMS
+25 COMMON_FILE_SYSTEMS
+26 UNIVERSAL_FILE_SYSTEMS
+27 FILE_SYSTEM_COMPARISONS
+28 DISK_ENCRYPTION
+29 LUKS
+30 OTHER_ENCRYPTION_TYPES
+31 SWAP
+32 UNIVERSAL_LINUX_INSTALL_FLOW
+33 FEDORA_INSTALLER
+34 OPENSUSE_INSTALLER
+35 LINUX_MINT_INSTALLER
+36 PARTITIONING
+37 POST_INSTALLATION
+38 VIRTUALBOX
+39 VIRTUALBOX_SETUP_AND_USAGE
+40 OBS
+41 OBS_USAGE
+42 GLOSSARY
+
+============================================================
+
+## LINUX_OVERVIEW
+
+-- FULL_NOTES (ORIGINAL)
+Linux is a free, open-source operating system. It was created in 1991 by Linus Torvalds, who was a college student at the time.
+
+Linus wrote the Linux kernel and made it public, inviting others to build on it. Linux by itself is just the kernel. Most people refer to things like Ubuntu, Arch, and Kali as “Linux,” but these are technically distributions of Linux. These distributions package together the Linux kernel, system tools, and in some cases a desktop environment.
+
+From what I can gather, Linus made the Linux kernel to be a free, open-source, Unix-like kernel. Unix was created by Bell Labs in the 1970s and was described as powerful and elegant. It was used by professionals in universities, research labs, telecommunications, and engineering firms.
+
+Despite this, Unix was expensive; its source code was restricted, and it was not accessible to the normal or home user. In college, Linus was using MINIX, which was a Unix-like operating system that was also limited by licensing and design choices. Linus wanted to create a free kernel that worked like Unix but without the limits of licenses or cost.
+
+One of the ways Linux differs from other operating systems is that it focuses on control and customization, allowing users to create an operating system that works for their needs, compared to Windows, which tries to make things simple but at the cost of control and customization.
+
+============================================================
+
+## COMPARING_LINUX_IOS_OPENBSD
+
+-- FULL_NOTES (ORIGINAL)
+iOS is very polished and sleek-looking, but it is also heavily locked down.
+
+From what I understand, OpenBSD is known for being difficult to use but extremely secure. Features and experimental updates are often set aside so users can have the most locked-down and secure experience possible.
+
+One thing I realized while reading about all of this is that Linux can be all of these things, but the other operating systems cannot easily shift or change to cover other strengths or features.
+
+============================================================
+
+## KERNEL
+
+-- FULL_NOTES (ORIGINAL)
+A kernel is low-level software that manages hardware and provides system resources and services to all programs.
+
+The kernel uses device drivers to understand and communicate with each piece of hardware. Every program running on the system is a process, and the kernel creates and destroys these processes.
+
+The kernel also manages memory, controls file systems, handles networking, and enforces security.
+
+============================================================
+
+## LINUX_KERNEL_LANGUAGE
+
+-- FULL_NOTES (ORIGINAL)
+The Linux kernel was mostly written in C, with small sections written in assembly.
+
+C is powerful and is described as being as “close to the hardware” as a programming language can be. The translation from C to hardware instructions is direct and transparent. C also produces fast and predictable code, and it can be compiled for many different CPU architectures.
+
+This explains how Linux can run on so many different systems, such as x86 and ARM architectures.
+
+============================================================
+
+## LINUX_HARDWARE_SUPPORT
+
+-- FULL_NOTES (ORIGINAL)
+It would be easier to list what Linux cannot run on.
+
+Linux runs on more types of hardware than any other operating system in history, including:
+
+Laptops and desktop computers
+
+Servers and data centers
+
+Mobile devices (Android phones use the Linux kernel)
+
+Single-board computers
+
+IoT and embedded devices
+
+============================================================
+
+## LINUX_DISTRIBUTIONS
+
+-- FULL_NOTES (ORIGINAL)
+A Linux distribution is a complete operating system built around the Linux kernel. Distributions can be customized to fit a specific or niche need.
+
+============================================================
+
+## ENTERPRISE_AND_GAMING_LINUX_DISTRIBUTIONS
+
+-- FULL_NOTES (ORIGINAL)
+Enterprise Linux distributions
+
+Some examples of enterprise Linux distributions include:
+
+Red Hat Enterprise Linux (RHEL)
+
+An industry standard for large corporations, especially in banking and finance. It focuses on long-term stability and conservative updates.
+
+Ubuntu Server
+
+Free to use, with optional paid support. Popular in cloud and DevOps environments and offers long-term support (LTS) releases.
+
+SUSE Linux Enterprise
+
+Popular in Europe. It features live patching and high-availability clustering, which allows multiple devices or nodes to work together to ensure little to no downtime for services or data access.
+
+These distributions are considered enterprise distributions because they are tailored for businesses, large organizations, data centers, and mission-critical operations.
+
+Linux gaming distributions
+
+Linux distributions made for gaming usually include GPU drivers, performance tuning, and easy setup for popular services like Steam.
+
+SteamOS
+
+Built by Valve and optimized for the Steam Deck.
+
+Garuda Linux
+
+An Arch-based distribution that features aggressive tuning and is very performance-focused.
+
+Pop!_OS
+
+An NVIDIA-friendly distribution that can auto-detect or allow users to select an OS version based on their graphics drivers.
+
+============================================================
+
+## OTHER_LINUX_DISTRIBUTIONS_WITH_SPECIFIC_AND_NOVEL_PURPOSES
+
+-- FULL_NOTES (ORIGINAL)
+Cybersecurity and Forensics
+
+Kali Linux and Parrot OS are the two I’ve used. They come loaded with tools for penetration testing, digital forensics, and a whole bunch of other useful security-related tools.
+
+Privacy and Anonymity
+
+Tails OS is a true “leave no trace” operating system.
+
+I have also heard of Qubes OS. It uses different virtual machines isolated into “cubes.” You can build different profiles to isolate sensitive data or tasks and keep them out of harm’s way if you might be doing something less secure.
+
+(Network chuckle: “The most secure OS in the world.”)
+
+Education and Learning
+
+I found whispers of the most stripped-down Linux distribution possible, even more minimal than Arch.
+
+I later found people online giving more information, as well as a YouTube video that explained Linux From Scratch.
+
+Linux From Scratch is a book and guide that gives you an absolute base to build from. Users compile their own kernel, build the system layout, and build core utilities.
+
+Next time someone says “I use Arch, by the way,” I’m going to scoff.
+
+Other Specialized Uses
+
+Another example would be OpenWrt. My router uses it as its operating system. It is ultra-customizable and an open-source alternative to Cisco-style router operating systems.
+
+Raspbian is used for the Raspberry Pi.
+
+============================================================
+
+## SOFTWARE_LICENSES_AND_LINUX
+
+-- FULL_NOTES (ORIGINAL)
+What is the GPL?
+
+GPL = General Public License
+
+In simple terms, you are free to:
+
+use the software
+
+study it
+
+modify it
+
+share it
+
+Anything that is modified must also be open source.
+
+This protects the user’s freedom to tinker and modify. The Linux kernel itself is GPL-licensed.
+
+============================================================
+
+## MIT_LICENSE
+
+-- FULL_NOTES (ORIGINAL)
+What is the MIT License?
+
+The MIT License is a permissive license.
+
+Users can:
+
+use it
+
+copy it
+
+modify it
+
+sell software using it
+
+They can also keep their changes closed source and do not have to share modifications.
+
+It includes a “no warranty” rule: if the code breaks your stuff, you cannot sue the author. Users must still credit the original creator.
+
+============================================================
+
+## GPL_VS_MIT
+
+-- FULL_NOTES (ORIGINAL)
+Major Differences Between GPL and MIT
+
+With the GPL, you cannot keep changes secret or use it in closed-source software.
+
+With the MIT License, you do not have to share modifications, making it more vendor-friendly.
+
+============================================================
+
+## HOW_BIG_VENDORS_USE_LINUX
+
+-- FULL_NOTES (ORIGINAL)
+How Big Vendors Use Linux
+
+Big vendors access and utilize the Linux kernel under the GPL license. Any changes they make to the kernel must be shared.
+
+Android phones use the Linux kernel. This makes the Android kernel open and available.
+
+Valve uses the Linux kernel and the GNU tools (filesystem utilities, system commands, Bash, text processing tools, compilers, build tools, and system libraries).
+
+The GNU tools were created before Linux and had everything needed except a public kernel. When Linux was released, it paired well with the GNU tools.
+
+============================================================
+
+## LINUX_AND_CLOUD_COMPUTING
+
+-- FULL_NOTES (ORIGINAL)
+Linux and Cloud Computing
+
+Amazon and AWS use Linux for their cloud services. It runs servers, data centers, and AI infrastructure.
+
+Meta (Facebook) is similar to Amazon. It runs important infrastructure such as servers, data centers, and Meta AI on Linux.
+
+These companies use Linux because it does not force them to share everything they build or how they make money. They only need to share changes made to the Linux foundation they use. This pushes Linux forward without closing it off to any one user.
+
+============================================================
+
+## LINUX_AS_THE_FOUNDATION_OF_THE_CLOUD
+
+-- FULL_NOTES (ORIGINAL)
+Linux as the Foundation of the Cloud
+
+Linux is the foundation of cloud computing. It was designed for:
+
+multi-user systems
+
+networking
+
+long uptime
+
+automation
+
+remote control
+
+Cloud providers can run millions of servers cheaply across thousands of data centers. Linux has zero per-machine licensing cost, can be heavily customized, and is not vendor-locked.
+
+Linux is easily scriptable and automatable using shells, text configuration files, SSH, and package managers. You could spin up 10,000 Linux servers automatically.
+
+Linux enables virtualization and containers, both of which modern cloud computing depends on.
+
+Amazon, Google, and Azure (Microsoft) all use Linux.
+
+============================================================
+
+## LAMP_STACK
+
+-- FULL_NOTES (ORIGINAL)
+What is a LAMP Stack?
+
+LAMP is a classic web server stack used to host websites and web applications:
+
+L – Linux
+
+A – Apache
+
+M – MySQL
+
+P – PHP
+
+LAMP is a cheap and easy way to host websites and scale applications. It was the stepping stone and one of the first common ways to build the web on top of Linux.
+
+============================================================
+
+## INSTALLATION_MEDIA
+
+-- FULL_NOTES (ORIGINAL)
+Installation Media and How to Decide Which to Use
+
+Installation media is the container that holds a Linux installer, a minimal operating system, and the tools needed to install Linux.
+
+============================================================
+
+## COMMON_INSTALLATION_MEDIA
+
+-- FULL_NOTES (ORIGINAL)
+Common Installation Media
+
+USB flash drive
+
+DVD
+
+SD card
+
+Network boot
+
+============================================================
+
+## DECIDING_INSTALLATION_MEDIA
+
+-- FULL_NOTES (ORIGINAL)
+Ways to Decide Which Installation Media to Use
+
+1. CPU Architecture
+
+x86_64 – Most PCs and laptops
+
+ARM / ARM64 – Raspberry Pi and phones
+
+Older x86 (32-bit) – Older PCs
+
+2. Device Type
+
+Desktop / Laptop
+
+Uses a bootable USB
+
+Device looks for an ISO file
+
+An ISO file is a copy of a bootable disc (CD/DVD)
+
+When flashed to a USB, it pretends to be a bootable CD
+
+Desktop ISO vs Server ISO
+
+Desktop ISO: graphical interface, mouse, windows, apps
+
+Server ISO: usually text-only, no desktop, meant for remote access
+
+Both use the same boot method
+
+Raspberry Pi
+
+Does not have BIOS or UEFI
+
+Reads raw data directly from an SD card
+
+============================================================
+
+## PARTITION_TABLES
+
+-- FULL_NOTES (ORIGINAL)
+Partition Tables
+
+A partition table is a map that tells a computer how a storage drive is divided.
+
+Analogy:
+
+Disk = warehouse
+
+Partitions = rooms
+
+Partition table = map
+
+Linux mainly uses two partition table types:
+
+MBR (old)
+
+GPT (new)
+
+============================================================
+
+## MBR
+
+-- FULL_NOTES (ORIGINAL)
+MBR (Master Boot Record)
+
+Partition information stored in one small spot at the start of the disk
+
+Supports up to 4 partitions
+
+Works on old computers and legacy BIOS
+
+Maximum disk size: ~2 TB
+
+Single point of failure
+
+============================================================
+
+## GPT
+
+-- FULL_NOTES (ORIGINAL)
+GPT (GUID Partition Table)
+
+Stores partition information in multiple locations
+
+Helps prevent a single point of failure from corruption
+
+Has a backup copy of the partition table
+
+Supports very large disks (far beyond MBR limits)
+
+Supports many partitions (up to 128 in most cases)
+
+Designed for newer hardware and UEFI
+
+Rule:
+
+If a system uses UEFI, use GPT
+
+If a system uses legacy BIOS, use MBR
+
+============================================================
+
+## UEFI
+
+-- FULL_NOTES (ORIGINAL)
+UEFI (Unified Extensible Firmware Interface)
+
+UEFI is the modern replacement for BIOS. It is the first software that runs when you power on a computer.
+
+UEFI:
+
+Wakes up the hardware
+
+Checks the CPU, RAM, disks, keyboard, mouse, etc.
+
+Looks for boot instructions
+
+Launches the operating system
+
+UEFI can be described as:
+
+“The OS launcher that lives below the operating system.”
+
+Why BIOS Was Replaced
+
+Slow startup
+
+Limited disk support
+
+Lack of security features
+
+BIOS vs UEFI
+
+BIOS
+
+UEFI
+
+Old
+
+New
+
+Very limited
+
+Flexible
+
+MBR
+
+GPT
+
+No security
+
+Secure Boot
+
+Tiny boot code
+
+Real boot programs
+
+============================================================
+
+## FILE_SYSTEMS
+
+-- FULL_NOTES (ORIGINAL)
+File Systems
+
+A file system is a method used by operating systems to store, name, organize, and retrieve files on a storage device.
+
+============================================================
+
+## COMMON_FILE_SYSTEMS
+
+-- FULL_NOTES (ORIGINAL)
+Common File Systems
+
+Windows
+
+NTFS (main one)
+
+FAT32 (removable media)
+
+NTFS:
+
+Supports large files and disks
+
+File permissions
+
+Journaling
+
+Case-insensitive by default
+
+iOS
+
+APFS (Apple File System)
+
+Designed for flash storage
+
+Strong encryption
+
+Snapshots
+
+Fast, secure, Apple-only
+
+Android
+
+ext4 (sometimes F2FS)
+
+Linux-native
+
+Stable and reliable
+
+Journaling support
+
+Linux
+
+ext4 (most common)
+
+Can read many file systems
+
+Also supports XFS and Btrfs
+
+============================================================
+
+## UNIVERSAL_FILE_SYSTEMS
+
+-- FULL_NOTES (ORIGINAL)
+Universal File Systems
+
+FAT32 is the most universal
+
+exFAT is a close second
+
+Helpful Analogy
+
+File system = language
+
+Disk = notebook
+
+OS = reader
+
+============================================================
+
+## FILE_SYSTEM_COMPARISONS
+
+-- FULL_NOTES (ORIGINAL)
+File System Comparisons
+
+EXT4
+
+Strengths
+
+Very stable
+
+Well-tested
+
+Fast for everyday use
+
+Low overhead
+
+Works everywhere on Linux
+
+Easy to recover if something breaks
+
+Weaknesses
+
+No native snapshots
+
+Limited modern features
+
+No built-in checksumming
+
+Best for:
+
+Desktops
+
+Laptops
+
+Servers that value stability
+
+Beginners who “just want it to work”
+
+BTRFS (B-tree File System)
+
+A modern Linux file system
+
+Adds advanced features without extra tools
+
+Strengths
+
+Snapshots
+
+Copy-on-write
+
+Checksums for data and metadata
+
+Easy rollback after bad updates
+
+ZFS (Zettabyte File System)
+
+File system and volume manager with RAID
+
+Focused on data integrity and massive storage capacity
+
+Strengths
+
+End-to-end checksumming
+
+Automatic data repair
+
+Snapshots and clones
+
+Designed for massive storage systems
+
+Summary
+
+EXT4: best for general use
+
+BTRFS: best for advanced desktops
+
+ZFS: best for servers and NAS
+
+============================================================
+
+## DISK_ENCRYPTION
+
+-- FULL_NOTES (ORIGINAL)
+Disk Encryption
+
+Disk encryption scrambles data so it cannot be read without a key or password.
+
+Protects data at rest
+
+Once a system is unlocked, the data is no longer protected
+
+Linux emphasizes choice and transparency, Windows emphasizes enterprise control, and iOS emphasizes locked-down automation.
+
+============================================================
+
+## LUKS
+
+-- FULL_NOTES (ORIGINAL)
+LUKS
+
+LUKS = Linux Unified Key Setup
+
+Uses AES (Advanced Encryption Standard)
+
+Uses dm-crypt (kernel encryption layer)
+
+Can encrypt whole disks or individual partitions
+
+Home directory encryption is less common now
+
+============================================================
+
+## OTHER_ENCRYPTION_TYPES
+
+-- FULL_NOTES (ORIGINAL)
+Other Encryption Types
+
+File and data encryption: GnuPG (GPG)
+
+Network encryption: TLS / SSL
+
+============================================================
+
+## SWAP
+
+-- FULL_NOTES (ORIGINAL)
+Swap
+
+Swap is used when RAM usage is at its maximum.
+
+Disk space is identified and used as backup memory
+
+Less important data is moved to disk
+
+Keeps RAM available for higher-priority tasks
+
+Swap is slower than RAM
+
+============================================================
+
+## UNIVERSAL_LINUX_INSTALL_FLOW
+
+-- FULL_NOTES (ORIGINAL)
+The universal Linux install flow (this applies to all three)
+
+No matter the distro, installing Linux usually looks like this:
+
+Download the installer image
+
+Create bootable installation media
+
+Boot from the media
+
+Walk through the installer
+
+Reboot into Linux
+
+============================================================
+
+## FEDORA_INSTALLER
+
+-- FULL_NOTES (ORIGINAL)
+Fedora
+
+[https://youtu.be/WVvH5ppWApU?si=P16FU_2gkciUp1tR](https://youtu.be/WVvH5ppWApU?si=P16FU_2gkciUp1tR)
+
+Download the correct installer
+
+You start by downloading an ISO file for your system (x86_64 for most PCs).
+
+Fedora → Fedora Workstation ISO
+
+[https://www.fedoraproject.org/workstation/download/?utm_source=chatgpt.com](https://www.fedoraproject.org/workstation/download/?utm_source=chatgpt.com)
+
+============================================================
+
+## OPENSUSE_INSTALLER
+
+-- FULL_NOTES (ORIGINAL)
+openSUSE
+
+[https://youtu.be/zmEAtN7WorE?si=_nloUPfiVmLFOzp4](https://youtu.be/zmEAtN7WorE?si=_nloUPfiVmLFOzp4)
+
+============================================================
+
+## LINUX_MINT_INSTALLER
+
+-- FULL_NOTES (ORIGINAL)
+Linux Mint
+
+[https://youtu.be/ulQWy5o-tps?si=OKjov6KDWGR9gNEb](https://youtu.be/ulQWy5o-tps?si=OKjov6KDWGR9gNEb)
+
+============================================================
+
+## PARTITIONING
+
+-- FULL_NOTES (ORIGINAL)
+Partitioning (high-level only, no danger)
+
+All three offer:
+
+Automatic partitioning (recommended for beginners)
+
+Manual partitioning (advanced users)
+
+Typical automatic setup:
+
+EFI System Partition (if UEFI)
+
+Root (/)
+
+Swap (partition or file)
+
+Home (/home) (sometimes separate)
+
+If unsure:
+
+Choose automatic
+
+============================================================
+
+## POST_INSTALLATION
+
+-- FULL_NOTES (ORIGINAL)
+After installation (common to all)
+
+Once installed:
+
+Remove the USB
+
+Reboot
+
+Login
+
+Run system updates
+
+Install drivers if needed
+
+Congratulations — Linux is now your OS.
+
+============================================================
+
+## VIRTUALBOX
+
+-- FULL_NOTES (ORIGINAL)
+Setup and guide for VirtualBox
+
+[https://youtu.be/XvyQPsXY_oQ?si=d6SrnsW-qYuAeALY](https://youtu.be/XvyQPsXY_oQ?si=d6SrnsW-qYuAeALY)
+
+[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+
+What is VirtualBox?
+
+VirtualBox is a program that lets you run a complete computer inside your computer.
+
+That “computer inside a computer” is called a virtual machine (VM).
+
+Your real computer:
+
+hardware
+
+OS (Windows/macOS/Linux)
+
+files
+
+VirtualBox:
+
+pretends to be hardware
+
+creates fake CPU, RAM, disk, network
+
+runs another OS safely inside a window
+
+What problem VirtualBox solves
+
+VirtualBox lets you:
+
+try Linux without installing it
+
+run multiple OSes at once
+
+break things safely
+
+learn OS concepts hands-on
+
+test installers, partitions, encryption, etc.
+
+If the VM breaks:
+
+Close it. Delete it. Try again.
+
+Your real system is untouched.
+
+The mental model (this matters)
+
+Think of it like this:
+
+Host OS → your real OS (Windows/macOS/Linux)
+
+VirtualBox → the pretend hardware factory
+
+Guest OS → the OS inside the VM (Fedora, Mint, etc.)
+
+Your computer
+
+├─ Host OS
+
+│   └─ VirtualBox
+
+│       └─ Guest OS (Linux)
+
+What VirtualBox actually emulates
+
+Each VM gets:
+
+virtual CPU cores
+
+virtual RAM
+
+a virtual hard drive (just a file)
+
+a virtual network card
+
+a virtual display
+
+Linux thinks it’s running on real hardware — but it’s not.
+
+============================================================
+
+## VIRTUALBOX_SETUP_AND_USAGE
+
+-- FULL_NOTES (ORIGINAL)
+How to use VirtualBox (step by step, detailed but safe)
+
+Install VirtualBox
+
+Download VirtualBox from the official site
+
+Install it like any normal application
+
+(Optional but recommended) install the Extension Pack
+
+adds USB support
+
+adds better device integration
+
+You now have a VM manager, not a VM yet.
+
+Get a Linux ISO
+
+You’ll need:
+
+a Linux ISO file (Fedora, openSUSE, Mint, etc.)
+
+Example:
+
+linuxmint-21.3-cinnamon-64bit.iso
+
+This ISO is the “installer CD”.
+
+Create a new Virtual Machine
+
+In VirtualBox:
+
+Click New
+
+Name the VM (e.g., “Linux Mint Test”)
+
+Choose:
+
+Type: Linux
+
+Version: Ubuntu (Mint-based) or Fedora, etc.
+
+This just sets defaults — nothing permanent yet.
+
+Assign RAM and CPU
+
+RAM (memory)
+
+Minimum: 2 GB
+
+Recommended: 4 GB if you can spare it
+
+CPU
+
+1–2 cores is fine
+
+Don’t assign more than half your real cores
+
+Rule of thumb:
+
+Leave enough resources for your host OS.
+
+Create a virtual hard disk
+
+This is a file on your real disk that pretends to be a hard drive.
+
+Choices:
+
+VDI (VirtualBox format) → fine
+
+Dynamically allocated → grows as needed
+
+Size:
+
+Minimum: 20 GB
+
+Comfortable: 30–40 GB
+
+This is where Linux will live.
+
+Attach the ISO (this is important)
+
+Before starting the VM:
+
+Open Settings
+
+Go to Storage
+
+Under “Controller IDE” or “Controller SATA”
+
+Attach the Linux ISO file
+
+This tells the VM:
+
+“Boot from this installer.”
+
+Start the VM
+
+Click Start.
+
+What happens:
+
+VirtualBox pretends to power on a computer
+
+The VM boots from the ISO
+
+You see the Linux installer
+
+From here on:
+
+You install Linux exactly like a real computer
+
+Install Linux inside the VM
+
+Inside the installer:
+
+choose language
+
+choose keyboard
+
+choose Erase disk (safe — it’s the virtual disk!)
+
+create user
+
+install
+
+ Important:
+
+“Erase disk” only erases the virtual disk file, not your real drive.
+
+Reboot & remove ISO
+
+After installation:
+
+VM reboots
+
+Linux starts from the virtual disk
+
+If it boots back into the installer:
+
+remove the ISO from Settings → Storage
+
+ Install Guest Additions (highly recommended)
+
+Guest Additions improve:
+
+screen resolution
+
+mouse integration
+
+clipboard sharing
+
+performance
+
+Steps:
+
+VM running
+
+Menu → Devices → Insert Guest Additions CD
+
+Run installer inside Linux
+
+Reboot VM
+
+Now the VM feels much smoother.
+
+Common things people use VirtualBox for
+
+Learning Linux
+
+Testing installers
+
+Practicing partitioning
+
+Trying encryption (LUKS)
+
+Running servers locally
+
+School labs
+
+Cybersecurity practice
+
+What VirtualBox is NOT good for
+
+Heavy gaming
+
+GPU-intensive tasks
+
+Real performance testing
+
+Hardware driver testing
+
+It’s a learning and testing tool, not a replacement for native installs.
+
+One-sentence summary (lock this in )
+
+VirtualBox is software that lets you safely run full operating systems inside your computer by emulating hardware, making it ideal for learning, testing, and experimenting with Linux.
+
+============================================================
+
+## OBS
+
+-- FULL_NOTES (ORIGINAL)
+Obs website
+
+[https://obsproject.com/](https://obsproject.com/)
+
+What is OBS?
+
+OBS Studio (Open Broadcaster Software) is a free, open-source program for recording and streaming video.
+
+People use OBS to:
+
+record their screen
+
+record gameplay
+
+record lectures or demos
+
+livestream to Twitch, YouTube, etc.
+
+capture webcams and microphones together
+
+It’s used by:
+
+streamers
+
+YouTubers
+
+teachers
+
+developers
+
+students (screen recordings + voice)
+
+The core idea (this is the mental model)
+
+OBS works with three main concepts:
+
+Scenes
+
+A scene is a layout.
+
+Think:
+
+“What do I want visible right now?”
+
+Examples:
+
+Full screen + mic
+
+Screen + webcam in corner
+
+Slides only
+
+Game capture
+
+Sources
+
+Sources are the things inside a scene.
+
+Common sources:
+
+Screen capture
+
+Window capture
+
+Game capture
+
+Webcam
+
+Microphone
+
+Image
+
+Text
+
+Scenes are made of sources stacked together.
+
+Output
+
+Output is where the video goes:
+
+a video file (recording)
+
+a livestream (Twitch, YouTube)
+
+The OBS interface (what you’re looking at)
+
+When OBS opens, you’ll see:
+
+Scenes (bottom left)
+
+Sources (next to scenes)
+
+Audio Mixer (mic & desktop sound levels)
+
+Controls (Start Recording, Settings, Exit)
+
+Nothing happens until you add sources.
+
+============================================================
+
+## OBS_USAGE
+
+-- FULL_NOTES (ORIGINAL)
+How to use OBS (step by step, detailed but safe)
+
+Install OBS
+
+Download OBS Studio
+
+Install it like any normal program
+
+First launch may ask to run an auto-configuration wizard
+
+This is safe to accept for beginners
+
+Create your first scene
+
+OBS usually starts with a scene called “Scene”.
+
+You can:
+
+keep it
+
+or rename it (e.g., “Screen Recording”)
+
+A scene is empty until you add sources.
+
+Add a screen or window (most common use)
+
+To record your full screen:
+
+Click + under Sources
+
+Choose Display Capture
+
+Name it
+
+Select your monitor
+
+Click OK
+
+To record one app only:
+
+Click +
+
+Choose Window Capture
+
+Pick the app window
+
+Now you’ll see your screen inside OBS.
+
+Add your microphone 🎙
+
+Usually OBS auto-detects your mic.
+
+Check the Audio Mixer:
+
+You should see green bars moving when you talk
+
+If not:
+
+Go to Settings → Audio
+
+Select your microphone under Mic/Aux
+
+Apply
+
+(Optional) Add a webcam
+
+Click + under Sources
+
+Choose Video Capture Device
+
+Select your webcam
+
+Resize and drag it in the preview
+
+Sources stack like layers:
+
+top = front
+
+bottom = back
+
+Adjust audio levels (important)
+
+In the Audio Mixer:
+
+Your mic should peak in yellow, not red
+
+Desktop audio should be audible but not overpowering
+
+You can:
+
+drag sliders
+
+mute sources
+
+add filters (noise suppression, gain)
+
+Choose recording settings (quality control)
+
+Go to Settings → Output → Recording.
+
+Important options:
+
+Recording format: MKV (recommended)
+
+Encoder: Hardware (if available)
+
+Quality: “High Quality” or “Indistinguishable”
+
+Why MKV?
+
+If OBS crashes, the file is not corrupted
+
+You can remux to MP4 later
+
+Choose where recordings save
+
+Settings → Output → Recording Path
+
+Pick a folder you’ll remember.
+
+Start recording
+
+Click Start Recording.
+
+OBS now:
+
+captures video
+
+mixes audio
+
+writes to disk in real time
+
+Click Stop Recording when done.
+
+That’s it — you just made a recording.
+
+Streaming vs Recording (quick clarity)
+
+Recording → saves video locally
+
+Streaming → sends video to the internet live
+
+Streaming requires:
+
+a platform (Twitch, YouTube)
+
+a stream key
+
+more bandwidth
+
+Recording is much simpler for beginners.
+
+Common beginner mistakes (so you avoid them)
+
+Forgetting to add a source → black screen
+
+Recording at huge resolution → massive files
+
+Mic too quiet or too loud
+
+Not checking audio before recording
+
+Recording desktop audio accidentally (echo)
+
+What OBS is great at
+
+Screen recording
+
+Tutorials
+
+Demos
+
+Class projects
+
+Streaming
+
+Content creation
+
+What OBS is not great at
+
+Video editing
+
+Heavy effects
+
+Mobile recording
+
+OBS records — editing comes later.
+
+One-sentence summary (lock this in )
+
+OBS is free software for recording and streaming video that works by arranging sources into scenes and outputting them as recordings or livestreams.
+
+============================================================
+ sources Chatgpt 5.2 chatgpt.com for the base of notes on topics recommended. below are some links i explored off of chatgpt. and below are a list of links chatgpt provided that i haven't used but might be useful. 
+
+
+
+linux Distributions & Installers
+
+Fedora Workstation download
+https://www.fedoraproject.org/workstation/download/?utm_source=chatgpt.com
+
+openSUSE official site
+https://www.opensuse.org/
+
+Linux Mint official site
+https://linuxmint.com/
+
+Installation & Distro Walkthrough Videos
+
+Fedora installer walkthrough
+https://youtu.be/WVvH5ppWApU?si=P16FU_2gkciUp1tR
+
+openSUSE installer walkthrough
+https://youtu.be/zmEAtN7WorE?si=_nloUPfiVmLFOzp4
+
+Linux Mint installer walkthrough
+https://youtu.be/ulQWy5o-tps?si=OKjov6KDWGR9gNEb
+========================================================
+LINKS FOR LATER TO COVER MY BASES
+========================================================
+1. Universal Linux Install Flow (Simple, Accurate)
+
+Linux Journey – Installation Overview
+Explains the generic Linux install process without distro bias.
+
+https://linuxjourney.com/lesson/installation
+
+Why it’s good:
+
+Matches your “universal install flow” section
+
+Short and clear
+
+No hand-holding fluff
+================================================================
+2. Partitioning Basics (MBR vs GPT, UEFI context)
+
+Linux Foundation – Disk Partitioning Basics
+
+https://training.linuxfoundation.org/blog/understanding-disk-partitioning-in-linux/
+
+Why it’s good:
+
+Explains what partitions are and why they matter
+
+Helps during installer partition screens
+
+Neutral and professional
+==================================================================
+3. UEFI vs BIOS (When you’re staring at boot options)
+
+Red Hat – UEFI vs BIOS Explained
+
+https://www.redhat.com/en/topics/linux/uefi-vs-bios
+
+Why it’s good:
+
+Clear decision logic
+
+Directly supports your UEFI/GPT rules
+
+Vendor-neutral explanation despite Red Hat branding
+======================================================================
+4. Choosing Automatic vs Manual Partitioning
+
+r/linux4noobs – Partitioning advice thread
+
+https://www.reddit.com/r/linux4noobs/wiki/partitioning/
+
+Why it’s good:
+
+Written exactly for beginners
+
+Reinforces “automatic is fine”
+
+Matches what instructors expect you to do
+=========================================================================
+5. LUKS Disk Encryption (Beginner-safe explanation)
+
+Red Hat – What is LUKS?
+
+https://www.redhat.com/sysadmin/what-luks
+
+Why it’s good:
+
+Explains LUKS without command overload
+
+Good for “should I enable encryption?” questions
+
+Aligns perfectly with your notes
+========================================================================
+6. Filesystem Choice (ext4 vs BTRFS quick clarity)
+
+Linux Handbook – ext4 vs BTRFS
+
+https://linuxhandbook.com/ext4-vs-btrfs/
+
+Why it’s good:
+
+Short comparison
+
+Explains why ext4 is usually default
+
+Helps if the installer asks you to choose
+============================================================================
+7. Fedora / Mint / openSUSE Install Guides (Official)
+
+These are safe during exams because they’re vendor-maintained and non-opinionated.
+
+Fedora
+
+https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/
+
+Linux Mint
+
+https://linuxmint-installation-guide.readthedocs.io/en/latest/
+
+openSUSE
+
+https://doc.opensuse.org/documentation/leap/startup/html/book-startup/cha-installation.html
+
+Why these matter:
+
+Match what you actually see in installers
+
+Screenshots + step descriptions
+
+Zero Reddit drama, zero YouTube rambling
+==============================================================================
+8. Post-Install “What Now?”
+
+Linux Journey – Post Installation
+
+https://linuxjourney.com/lesson/post-installation
+
+Why it’s good:
+
+Reinforces update + driver steps
+
+Matches your POST_INSTALLATION section
+
+Simple checklist mentality

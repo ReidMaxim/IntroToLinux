@@ -1,0 +1,501 @@
+============================================================
+
+## TABLE_OF_CONTENTS
+
+============================================================
+01 LINUX_FILE_HIERARCHY_STANDARD
+02 CORE_FHS_DIRECTORIES
+03 FILE_CONTAINERS
+04 SHARED_LIBRARIES
+05 FHS_AND_SHARED_LIBRARIES
+06 NAVIGATION_AND_INSPECTION
+07 CREATING_AND_MODIFYING_FILES_DIRECTORIES
+08 SEARCHING_WITHIN_THE_DIRECTORY
+09 USERS_IN_LINUX
+10 FILE_AND_DIRECTORY_OWNERSHIP
+11 PERMISSION_TYPES_IN_LINUX
+12 CHMOD
+13 UMASK
+14 ACCESS_CONTROL_LISTS
+15 INODES
+16 SUPERBLOCK
+
+
+============================================================
+
+## LINUX_FILE_HIERARCHY_STANDARD
+
+============================================================
+
+Linux File hierarchy Standard (FHS)
+defines where files and directories live
+in Linux. this ensures that every distro of
+Linux stays consistent, software knows where to
+install things, Admins/Users know where to look
+for files/directories, tools and scripts work across
+Systems
+
+A Look at the Filesystem Hierarchy Standard 3.0 (Linux.com)
+https://www.linux.com/training-tutorials/look-filesystem-hierarchy-standard-30/
+
+============================================================
+
+## CORE_FHS_DIRECTORIES
+
+============================================================
+
+Core directories as defined by FHS
+
+"/" Root directory, All other directories branch from here
+
+"/bin" Essential user command binary, Holds
+critical commands needed by users/Admins,
+/bin contains ls, cp, mv, cat, bash
+
+"/sbin" System binaries (admin-level tools) Primarily used
+for system management. contains fsck, reboot, shutdown, mount
+
+"/boot" contains boot loader files, if this breaks
+system doesnt boot. contains Linux kernel, initramfs
+and grub config files
+
+"/dev" contains device files these represent hardware
+as files, /dev/sda (harddrive) /dev/null, /dev/tty
+in Linux all hardware is treated as a file
+
+"/etc" contains System config files, passwd, shadow, hosts
+
+"/home" contains the user space. /home/username
+personal files, documents, dotfiles
+
+"/lib and /lib64" shared libraries needed by essential programs
+These support the /bin and /sbin
+
+"/usr" user applications and utilities, contains /usr/bin, /usr/lib
+this is where most software lives. /bin = essential /usr/bin = everything else
+
+"/var" variable data, logs, mail, databases and caches,
+files that constantly change live here
+
+"/tmp" temp files, clears often, alot of times even on reboot
+
+"/opt" optional 3rd party software large software packages
+and self contained apps
+
+MASTER Linux Filesystem Hierarchy Standard (YouTube)
+https://www.youtube.com/watch?v=1xfdPfyoqHY
+
+============================================================
+
+## FILE_CONTAINERS
+
+============================================================
+
+A directory used to organize and
+group related files. /etc is a container for config files
+/var/log is a container for logs /usr/lib is a container
+for libraries. Not a file type but an organizational concept.
+
+============================================================
+
+## SHARED_LIBRARIES
+
+============================================================
+
+instead of every program carrying its own
+copy of common code they can reference shared
+libraries like in /lib and /usr/lib these shared
+files are .so files (shared objects) they contain
+compiled code and data that programs can
+share and use dynamically at runtime. This is great
+because there is less disk usage, less memory usage
+easier updating.
+
+============================================================
+
+## FHS_AND_SHARED_LIBRARIES
+
+============================================================
+
+FHS ensures that shared libraries go in predictable places
+(/lib /usr/lib) system critical libraries are separated
+from user-level ones. programs know where to look.
+software works across distros.
+
+============================================================
+
+## NAVIGATION_AND_INSPECTION
+
+============================================================
+
+--Pwd--
+Shows current location in the filesystem. -P can be used to show the physical path
+
+--Cd--
+(change directory) ".." to go up one level in file directory. "-" go to previous directory "~" go to home directory "/" go to root directory
+
+--ls--
+show files and directories inside the current location
+
+Flags:
+-l = long format
+-a = show hidden files
+-h = human readable size
+-R = recursive (list subdirectories as well)
+-t = sort by time
+-S = sort by size
+
+"ls -la" whats in this folder
+
+"ll" is sometimes an alias for "ls -l"
+
+--file--
+identify a files type by inspecting the contents of the file.
+
+Flags:
+-i = show mime type
+
+--tree--
+shows directory and files in a hierarchical structure.
+
+8 Essential Linux File Navigation Commands (Red Hat)
+https://www.redhat.com/en/blog/Linux-file-navigation-commands
+
+============================================================
+
+## CREATING_AND_MODIFYING_FILES_DIRECTORIES
+
+============================================================
+
+--touch--
+creates an empty file or if file exists it updates the timestamps.
+
+Flags:
+-c = dont create if doesnt exist
+-t = set specific timestamp
+
+--mkdir--
+creates a directories
+
+Flags:
+-p = to create a parent directory
+
+--mv--
+move or rename
+"mv old.txt new.txt"
+
+Flags:
+-i = ask before overwrite
+-v = verbose (show whats happening)
+-f = force overwrite
+
+--cp--
+copies files
+
+Flags:
+-r = recursive
+-i = prompt before overwrite
+-v = verbose
+-a = archive (preserve permissions, ownership, timestamps)
+
+--rmdir--
+removes empty directories ONLY
+
+--rm--
+deletes files or directories
+
+Flags:
+-r = recursive
+-f = force no prompt
+-i = interactive
+-v = verbose
+
+--unlink--
+like rm but a little more under the hood
+
+if there is a hard link you can remove one from having that data's label, It removes the filenames reference to the inode.
+
+============================================================
+
+## SEARCHING_WITHIN_THE_DIRECTORY
+
+============================================================
+
+--locate--
+fast database search. locate searches a prebuilt database of filepaths. It does not scan the disk live.
+If you just made a file and locate cant find it you can use "sudo updatedb"
+
+Flags:
+-i = case insensitive
+-c = count matches
+-n = limit results
+-r = use regex
+
+--Find--
+Real time deep search
+
+find searches the file system live, it travels recursively
+
+Basic structure: find [starting directory] [conditions]
+
+"find /home -name notes.txt"
+
+Flags:
+-name = search by filename
+-iname = case insensitive
+-type = f = file d = directory l = symbolic
+-size = search by file size
+-user = find files owned by a user
+-mtime = modified time (days)
+-exec = allows user to run command on results
+
+"find /var -type d"
+"find . -size -10k"
+"find . -name *.log -exec rm {} ;"
+
+--which--
+where is this command? searches your path to find out what executable will run.
+
+Flags:
+-a = shows all matches in path
+
+--whereis--
+similar to which but searches common system directories for binaries and docs
+
+============================================================
+
+## USERS_IN_LINUX
+
+============================================================
+
+in linux a user is defined by: A username, a userid number (UID),
+a home directory and a default shell. users are stored
+in /etc/passwd
+
+A group of users is called a group. groups are defined in /etc/group
+
+Groups exist to share file access, grant permissions collectively
+and manage roles. both exist to help protect your system
+even if your the only one using the machine.
+
+Services run as separate users, system processes run as
+root and permissions keep everything working safely within
+the system.
+
+--Common Users--
+root = superuser (UID 0)
+nobody = minimal privilege user
+www-data = web server user
+mysql = database service
+daemon = background service
+
+--Common Groups--
+root = root-owned files
+sudo = can run sudo
+www-data = web process
+users = regular users
+
+Linux Users and Groups (YouTube)
+https://www.youtube.com/watch?v=b-9j2jiCOEA
+
+============================================================
+
+## FILE_AND_DIRECTORY_OWNERSHIP
+
+============================================================
+
+Every file has: an owner user, an owner group and permission bits for: user, group, others
+
+"-rw-r--r-- owner group date file.txt"
+
+filetype | owner | group | others
+
+Ownership decides who can modify, execute and who can delete.
+
+--SUID--
+SUID = Set user ID. A special permission bit.
+When applied to an executable it runs with the permissions of the file owner not the user executing it.
+
+--SGID--
+SGID = Set Group ID. On executables it runs with the groups permissions. On directories new files inside inherit the directories group.
+
+--chown--
+change owner
+"chown user file" to change owner and group "chown user:group file"
+
+Flags:
+-R = recursive
+-v = verbose
+-c = report changes only
+
+--chgrp--
+change group. "chgrp group file"
+
+Linux File Permissions Explained - CHMOD, CHOWN and CHGRP (YouTube)
+https://www.youtube.com/watch?v=tf-MTIEn0tI
+
+============================================================
+
+## PERMISSION_TYPES_IN_LINUX
+
+============================================================
+
+every file and directory in linux has one of three permission types.
+
+"r" = read = view contents
+"w" = write = modify/delete
+"x" = execute = run as program/open directory
+
+These three permissions are applied into 3 classes.
+u = user (owner) g = group o = others a = all (ugo)
+
+============================================================
+
+## CHMOD
+
+============================================================
+
+chmod (change mode)
+
+mode = permission bits attached to a file or directory, it modifies who can read, write, execute. there are two ways to use chmod
+
+Numerical (octal mode)
+
+Symbolic mode
+
+--Numerical mode--
+
+r (read = 4) w (write = 2) x (execute = 1)
+
+Structure "chmod XYZ file" each digit represents
+
+X = owner Y = group Z = others. Each digit is a sum of
+
+4 (read) 2 (write) 1 (execute)
+
+"chmod 600 secret.txt"
+
+600 = owner = 6 (read and write) group = 0 (none) others = 0 (none)
+
+--Special Permission bits--
+
+4 = SUID 2 = SGID 1 = Sticky bit. these are added
+as a fourth leading digit
+
+4 (SUID) program runs as file owner
+SGID (2) on files = run as group. on directories = new files inherit group
+Sticky bit (1) on directories only file owner can delete their own files.
+
+--Symbolic Mode (more human friendly)--
+
+"chmod [who][operator][permission] file"
+
+who: (u = user) (g = group) (o = others) (a = all)
+operator: (+ = add) (- = remove) (= = set exactly)
+
+"chmod u+x script.sh" = add execute to owner
+
+--Important flags for chmod--
+-R = recursive (apply changes to everything inside a directory)
+-v = verbose (show whats being changed)
+-c = report changes only (only show output if something changed)
+--reference=FILE (copy perms from another file)
+
+Make script executable: "chmod 755 backup.sh"
+team shared directory: "chmod 2775 project/"
+
+Linux Permissions: An Introduction to chmod (Red Hat)
+https://www.redhat.com/en/blog/introduction-chmod
+
+============================================================
+
+## UMASK
+
+============================================================
+
+UMask: user file creation mask. it controls what permissions are removed when new files and directories are created. default permissions: files = 666 directories = 777. set umask with "umask 000"
+
+Flags:
+-S = symbolic output
+-p = show reusable output format
+
+Common values:
+022 = standard multi user
+002 = shared team environment
+077 = highly private
+
+============================================================
+
+## ACCESS_CONTROL_LISTS
+
+============================================================
+
+lets you define permissions for specific users or groups beyond the standard owner/group/others model.
+
+--getfacl--
+shows ACL info "getfacl file.txt"
+
+output might include
+
+file: file.txt
+owner: reese
+group: developers
+
+user::rw- < owner permissions
+user:alex:r-- < specific user permissions
+group::r-- < group permissions
+mask::r-- < maximum allowed for named users/groups
+other::--- < others
+
+mask is important it limits effective perms.
+
+Flags:
+-R = recursive
+-a = access ACL only
+-d = default ACL only
+
+--Setting ACL's--
+
+setfacl = modifies ACL entries "setfacl -m u:alex:r file.txt"
+
+modify the acl: "setfacl -m" add user: "u:alex" give read permissions "r"
+
+Flags:
+-m = modify
+-x = remove
+-R = recursive
+-d = default
+-b = remove all entries
+
+============================================================
+
+## INODES
+
+============================================================
+
+A data structure that stores metadata about the file. it stores info on: file size, owner (UID) group (GID), permission bits, timestamps, disk block location, link count
+
+The file name is stored in the directory. The inode is the actual file record.
+
+An inode table is a structured list of all inodes on a filesystem. when a file system is created a fixed number of inodes were created.
+
+The part of an inode that stores permissions is called the mode. it stores: file type, permission bits, special bits.
+
+When you run "chmod 755 file.txt" you are modifying the inodes mode field.
+
+============================================================
+
+## SUPERBLOCK
+
+============================================================
+
+A superblock is the master metadata structure of a filesystem (its like the blueprint of the filesystem). it contains file system size, block size, total inodes, free blocks/inodes.
+
+Superblock points to inode tables → inode tables point to inodes → inodes point to data blocks.
+
+All this is important for forensics and data recovery.
+
+============================================================
+
+Chatgpt.com used for initial research. (Chatgpt 5.2) 
+Cursor AI used for digitizing paper notes and formatting (Opus 4.6)

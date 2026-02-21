@@ -1,0 +1,824 @@
+
+     1	
+     2	
+     3	============================================================
+     4	
+     5	## TABLE_OF_CONTENTS
+     6	
+     7	============================================================
+     8	01 CONSOLE_TERMINAL_SHELL
+     9	02 SHELL_METACHARACTERS
+    10	03 ROOT_SUPERUSER_SUDO
+    11	04 PACKAGE_MANAGEMENT
+    12	05 HEADLESS_SERVER
+    13	06 APPIMAGE_AND_FLATPAK
+    14	07 APPENDIX_PRACTICAL_COMMAND_CHEAT_SHEET
+    15	
+    16	
+    17	============================================================
+    18	
+    19	## CONSOLE_TERMINAL_SHELL
+    20	
+    21	    
+    22	
+    23	--------------------------------------
+    24	Console
+    25	--------------------------------------
+    26	In Linux the console is the actual system interface. It is the place where input/output happens. It differs from the terminal
+    27	in that a terminal runs as a user application.
+    28	It allows for direct communication with the kernel.
+    29	(wiki.debian.org/Console)
+    30	-----------------------------------------
+    31	Terminal
+    32	------------------------------------------
+    33	A terminal is a program that pretends to be a console.
+    34	Some include:
+    35	GNOME Terminal
+    36	Konsole
+    37	xterm
+    38	Alacritty
+    39	
+    40	A terminal gives the user access to a text terminal and all its applications such as:
+    41	CLI (command line interface)
+    42	TUI (text user interface)
+    43	It is just a window you type into.
+    44	It does not understand the command by itself.
+    45	---------------------------------------------------------
+    46	Shell
+    47	---------------------------------------------------------
+    48	The shell is the program that understands the text commands.
+    49	Reads what you type
+    50	Interprets it
+    51	Runs it
+    52	Handles pipes, variables, scripts, redirection, etc.
+    53	
+    54	--Flow of How It Works--
+    55	Keyboard
+    56	Terminal (window)
+    57	Shell (bash, zsh, etc.)
+    58	Linux kernel
+    59	
+    60	--Bash (Bourne Again SHell)--
+    61	Default shell on most Linux systems
+    62	Scriptable
+    63	Very well documented
+    64	Backward compatible with original Unix sh
+    65	Very stable and predictable
+    66	
+    67	--Other shells:--
+    68	zsh – better autocomplete and themes
+    69	fish – user friendly, great defaults
+    70	dash – very fast, minimal, used for system scripts
+    71	ksh – older Unix shell
+    72	
+    73	--TTY--
+    74	Ctrl + Alt + F1 opens a TTY (Teletypewriter).
+    75	This opens a shell directly to the console.
+    76	This is a console, not a window.
+    77	
+    78	--Command Line--
+    79	The command line is a text-based interface.
+    80	This refers to a style of interaction, not a program.
+    81	
+    82	--Terminal = tool
+    83	Shell = interpreter
+    84	Command line = method of interaction
+    85	
+    86	--What a Linux Command Is
+    87	A Linux command is usually one of four things:
+    88	Executable program
+    89	Shell builtin
+    90	Script
+    91	Alias
+    92	
+    93	--When You Type a Command
+    94	The shell has an order it follows:
+    95	Checks if it is a built-in command (things like cd, exit, history)
+    96	Checks to see if it is an alias
+    97	Aliases are user created shortcuts (example: alias ll="ls -la")
+    98	Checks if it is a function
+    99	Searches the directories in $PATH for an executable by the name entered
+   100	You could type out the full path of the executable, but $PATH is a shortcut.
+   101	
+   102	--Command Structure
+   103	Command = what to do
+   104	Flag = how to do it
+   105	Argument = what to do it to
+   106	
+   107	An argument points the command at what it’s doing.
+   108	A flag can be used to change how the command behaves.
+   109	Flags usually start with - or --.
+   110	If you have a file name that starts with -, you can use -- by itself to tell the command that everything past -- is an
+   111	argument and not a flag.
+   112	
+   113	--Man Pages
+   114	A man page is an in-depth breakdown of a command and how to use it.
+   115	Example:
+   116	man ls
+   117	It explains:
+   118	What the command does, How to use it, What flags exist, What arguments it expects
+   119	No internet required. All local.
+   120	Useful keys:
+   121	q = quit
+   122	/text = search
+   123	n = next match
+   124	
+   125	
+   126	--clear
+   127	Clears visible content on the terminal.
+   128	Keeps your scrollback intact.
+   129	Command history untouched and does not reset terminal state.
+   130	
+   131	--reset
+   132	Used to reinitialize the terminal to its default state.
+   133	Used when programs crash or break line wrapping.
+   134	Resets screen and keyboard connection
+   135	Does not clear .bash_history
+   136	Does not delete command history
+   137	Does not log you out or kill the shell
+   138	
+   139	--exit
+   140	In terminal window → closes window
+   141	In TTY → logs you out
+   142	In a script → stops execution
+   143	
+   144	--echo
+   145	Creates an output.
+   146	Example:
+   147	echo "hey linux"
+   148	Tells Linux to say it out loud.
+   149	Used in scripts, pipelines, and debugging.
+   150	
+   151	--who
+   152	Shows who is logged in right now.
+   153	Use -a to display all info or -q for quick list.
+   154	
+   155	w
+   156	Shows who is logged in and what they are doing.
+   157	Shows system load and idle time.
+   158	More detailed than who.
+   159	Common flags:
+   160	-h hide header
+   161	-s short format
+   162	
+   163	whoami
+   164	Will tell you user and if your privilege has been escalated.
+   165	id
+   166	What permissions do I have.
+   167	Displays user ID, group ID, and all group members.
+   168	Flags:
+   169	-u UID only
+   170	-g GID only
+   171	-n show names instead of numbers
+   172	Just permission truth.
+   173	
+   174	date
+   175	Shows date and time.
+   176	Can be formatted with flags.
+   177	
+   178	uname
+   179	What kind of system am I on.
+   180	Shows kernel and system info.
+   181	Common flags:
+   182	-a everything
+   183	-r kernel release
+   184	-m architecture
+   185	Kernel info, not distro branding.
+   186	
+   187	pwd
+   188	Where am I.
+   189	Prints current active directory.
+   190	-P displays physical path.
+   191	ls
+   192	List directory contents.
+   193	Flags:
+   194	-l long format
+   195	-a show hidden files
+   196	-h human readable sizes
+   197	-R recursive
+   198	Arguments: files, directories.
+   199	
+   200	shutdown
+   201	Schedules a clean shutdown of the system.
+   202	Flags:
+   203	-h halt
+   204	-r reboot
+   205	now means now
+   206	Arguments include time.
+   207	shutdown now
+   208	shutdown +5
+   209	
+   210	poweroff
+   211	Shutdown and cuts power.
+   212	reboot
+   213	Restart system.
+   214	halt
+   215	Like shutdown but does not kill the power.
+   216	============================================================
+   217	
+   218	============================================================
+   219	
+   220	============================================================
+   221	
+   222	## SHELL_METACHARACTERS
+   223	
+   224	SHELL METACHARACTERS
+   225	============================================================
+   226	
+   227	Shell Metacharacters (MCs)
+   228	These are characters the shell recognizes and treats differently than normal text.
+   229	They can change how a command is interpreted before the command actually runs.
+   230	The shell reads the metacharacter first and then uses it to control behavior.
+   231	
+   232	Examples:
+   233	ls *.txt
+   234	Lists all files ending in .txt in a directory.
+   235	ls file[123].txt
+   236	Lists file1.txt, file2.txt, file3.txt.
+   237	ls file?.txt
+   238	Matches exactly one character.
+   239	
+   240	Pipe |
+   241	Sends output to another command.
+   242	ls | grep txt
+   243	
+   244	Redirection
+   245	> overwrite output
+   246	>> append output
+   247	ls > files.txt
+   248	ls >> files.txt
+   249	< input redirection
+   250	Program reads input from file, not keyboard.
+   251	sort < names.txt
+   252	Command chaining
+   253	
+   254	; run a command after another always
+   255	mkdir test; cd test
+   256	
+   257	&& run next command only if first succeeds
+   258	make && sudo make install
+   259	
+   260	|| run next command only if first fails
+   261	cd mydir || echo "Directory not found"
+   262	
+   263	& run in background
+   264	sleep 60 &
+   265	
+   266	Variable expansion
+   267	$ variable expansion
+   268	echo $HOME
+   269	
+   270	Escape
+   271	\ escape tells the shell the next character is not a metacharacter
+   272	ls \*.txt
+   273	
+   274	Quotes
+   275	' literal mode
+   276	echo '$HOME' outputs $HOME
+   277	" controls expansion
+   278	echo "$HOME" expands but keeps it as one string
+   279	Example:
+   280	echo "Downloads"
+   281	Returns Downloads as a string.
+   282	============================================================
+   283	
+   284	============================================================
+   285	
+   286	============================================================
+   287	
+   288	## ROOT_SUPERUSER_SUDO
+   289	
+   290	
+   291	ROOT / SUPERUSER / SUDO
+   292	============================================================
+   293	
+   294	Root / Superuser / sudo
+   295	Root
+   296	User ID (UID) = 0
+   297	Root has unlimited permissions.
+   298	Can read any file, modify any system setting, kill any process.
+   299	
+   300	Superuser
+   301	Any account with root-level privileges.
+   302	Root is THE superuser.
+   303	
+   304	sudo
+   305	Super User DO.
+   306	Allows user to run a single command as root.
+   307	Safer than logging in as root.
+   308	Limits danger
+   309	Creates audit logs
+   310	Requires password
+   311	Can restrict what commands users may run
+   312	
+   313	What happens when you use sudo
+   314	You type your password.
+   315	sudo checks /etc/sudoers.
+   316	If allowed, command runs as root.
+   317	Timeout is 5–15 minutes.
+   318	
+   319	sudo flags
+   320	-l list what you are allowed to do
+   321	-v refresh sudo timeout
+   322	-k invalidate sudo (log out)
+   323	-u user run as different user
+   324	-i root login shell
+   325	-s root shell (same window, same environment)
+   326	
+   327	Example sudo commands
+   328	sudo apt install ani-cli
+   329	sudo dnf update
+   330	sudo nano /etc/fstab
+   331	sudo cat /etc/shadow
+   332	sudo systemctl restart ssh
+   333	sudo systemctl enable apache2
+   334	sudo useradd testuser
+   335	sudo mount /dev/sdb1 /mnt
+   336	sudo reboot
+   337	sudo poweroff
+   338	If it is your file, you do not need sudo.
+   339	============================================================
+   340	
+   341	============================================================
+   342	
+   343	============================================================
+   344	
+   345	## PACKAGE_MANAGEMENT
+   346	
+   347	PACKAGE MANAGEMENT
+   348	============================================================
+   349	
+   350	Package Management
+   351	Software is stored in repositories (trusted servers).
+   352	Software is bundled into packages.
+   353	A package manager installs, removes, upgrades, and tracks dependencies.
+   354	
+   355	Fedora uses DNF (Dandified YUM)
+   356	sudo dnf install vim
+   357	sudo dnf remove vim
+   358	sudo dnf upgrade
+   359	Fedora has a GUI installer called GNOME Software.
+   360	
+   361	openSUSE uses Zypper
+   362	sudo zypper install vim
+   363	sudo zypper remove vim
+   364	sudo zypper update
+   365	sudo zypper dup
+   366	zypper search vim
+   367	openSUSE uses YaST Software Management.
+   368	
+   369	Linux Mint APT (Ubuntu/Debian)
+   370	sudo apt install vim
+   371	sudo apt remove vim
+   372	sudo apt purge vim
+   373	sudo apt update
+   374	sudo apt upgrade
+   375	apt search vim
+   376	Mint includes a software GUI.
+   377	============================================================
+   378	
+   379	============================================================
+   380	
+   381	============================================================
+   382	
+   383	## HEADLESS_SERVER
+   384	
+   385	HEADLESS SERVER
+   386	============================================================
+   387	
+   388	Headless Server
+   389	A computer that runs without a monitor, keyboard, mouse, and usually no graphical desktop.
+   390	Examples:
+   391	Raspberry Pi
+   392	A cloud VM
+   393	A rack server in a datacenter
+   394	
+   395	Normally using SSH users can interact with the system.
+   396	ssh username@hostname_or_ip
+   397	
+   398	It is important to know terminal commands because it is often the only way to interact with a headless server.
+   399	
+   400	examples:
+   401	File management: ls, cd, cp, mv, rm
+   402	Editing files: nano
+   403	Managing services: systemctl start, enable, status
+   404	Monitoring system: top, htop, df -h, free -m, journalctl
+   405	
+   406	============================================================
+   407	
+   408	============================================================
+   409	
+   410	============================================================
+   411	
+   412	## APPIMAGE_AND_FLATPAK
+   413	
+   414	APPIMAGE AND FLATPAK
+   415	============================================================
+   416	
+   417	AppImage and Flatpak
+   418	These are universal containerized packaging formats for Linux that bundle a package with its dependencies.
+   419	
+   420	AppImage
+   421	A Linux app in a single file (like a Windows .exe).
+   422	Download one file, make it executable, run it.
+   423	No install, no package manager.
+   424	Runs in user space.
+   425	Does not install systemwide.
+   426	chmod +x myapp.AppImage
+   427	./myapp.AppImage
+   428	
+   429	Flatpak
+   430	A universal packaging system.
+   431	A sandbox app platform that works the same on every distro.
+   432	Runs in a sandbox.
+   433	Uses shared runtimes.
+   434	Apps share a base (shared runtime) of bundled libraries and system components that multiple Flatpak apps can use.
+   435	Apps are isolated from the system.
+   436	Permissions are tightly controlled.
+   437	flatpak install flathub org.gimp.GIMP
+   438	flatpak run org.gimp.GIMP
+   439	
+   440	
+   441	Comparison summary
+   442	subject/topic: Preferred method
+   443	Root required: Native
+   444	Cross-distro: AppImage, Flatpak
+   445	Sandboxed: Flatpak
+   446	Auto updated: Native, Flatpak
+   447	Disk usage: Native low, AppImage medium, Flatpak high
+   448	Easy removal: AppImage, Flatpak
+   449	Use native if:
+   450	It is in your repos
+   451	You care about performance and tight system integration
+   452	Use AppImage if:
+   453	You are quickly trying something new
+   454	You do not want system changes
+   455	You are running a headless or locked-down system
+   456	Use Flatpak if:
+   457	You want newer app versions
+   458	You want security isolation
+   459	You are on a distro with old repos
+   460	
+   461	
+   462	============================================================
+   463	
+   464	============================================================
+   465	
+   466	============================================================
+   467	
+   468	## APPENDIX_PRACTICAL_COMMAND_CHEAT_SHEET
+   469	
+   470	
+   471	APPENDIX – PRACTICAL COMMAND CHEAT SHEET
+   472	============================================================
+   473	
+   474	Expanded Topics & Additional Notes
+   475	Practical Linux Command Cheat Sheet (Man Page–Based)
+   476	
+   477	This section summarizes commonly used flags and arguments taken directly from Linux man pages.
+   478	These commands are frequently used during system setup, troubleshooting, and daily Linux use.
+   479	
+   480	--------------------------------------------------
+   481	ls — list directory contents
+   482	Source: man ls
+   483	
+   484	Common flags:
+   485	-l   long format (permissions, owner, size, time)
+   486	-a   include hidden files
+   487	-h   human-readable sizes (used with -l)
+   488	-R   recursive listing
+   489	-t   sort by modification time
+   490	-S   sort by file size
+   491	
+   492	Examples:
+   493	ls -lah
+   494	ls -lR /etc
+   495	ls -lt
+   496	
+   497	--------------------------------------------------
+   498	cd — change directory
+   499	Source: man bash (builtin)
+   500	
+   501	Usage:
+   502	cd        go to home directory
+   503	cd ..     move up one directory
+   504	cd -      switch to previous directory
+   505	
+   506	--------------------------------------------------
+   507	pwd — print working directory
+   508	Source: man pwd
+   509	
+   510	Flags:
+   511	-P   show physical path (resolve symlinks)
+   512	
+   513	Examples:
+   514	pwd
+   515	pwd -P
+   516	
+   517	--------------------------------------------------
+   518	cp — copy files and directories
+   519	Source: man cp
+   520	
+   521	Important flags:
+   522	-r   recursive (directories)
+   523	-i   prompt before overwrite
+   524	-v   verbose output
+   525	-a   archive mode (preserve permissions)
+   526	
+   527	Examples:
+   528	cp file1 file2
+   529	cp -r config/ backup/
+   530	cp -av /etc /tmp/etc-backup
+   531	
+   532	--------------------------------------------------
+   533	mv — move or rename files
+   534	Source: man mv
+   535	
+   536	Flags:
+   537	-i   prompt before overwrite
+   538	-v   verbose
+   539	
+   540	Examples:
+   541	mv old.txt new.txt
+   542	mv -iv file /tmp/
+   543	
+   544	--------------------------------------------------
+   545	rm — remove files
+   546	Source: man rm
+   547	
+   548	Critical flags:
+   549	-r   recursive
+   550	-f   force (no prompt)
+   551	-i   interactive
+   552	
+   553	Examples:
+   554	rm file.txt
+   555	rm -ri folder/
+   556	
+   557	--------------------------------------------------
+   558	echo — display text
+   559	Source: man echo
+   560	
+   561	Examples:
+   562	echo hello
+   563	echo "$HOME"
+   564	echo '*.txt'
+   565	
+   566	--------------------------------------------------
+   567	cat — display file contents
+   568	Source: man cat
+   569	
+   570	Flags:
+   571	-n   number output lines
+   572	-A   show non-printing characters
+   573	
+   574	Examples:
+   575	cat file.txt
+   576	cat -n file.txt
+   577	
+   578	--------------------------------------------------
+   579	less — paged file viewer
+   580	Source: man less
+   581	
+   582	Useful keys:
+   583	/text   search
+   584	n       next match
+   585	q       quit
+   586	
+   587	Example:
+   588	less /var/log/syslog
+   589	
+   590	--------------------------------------------------
+   591	man — manual pages
+   592	Source: man man
+   593	
+   594	Flags:
+   595	-k   keyword search
+   596	-f   short description
+   597	
+   598	Examples:
+   599	man ls
+   600	man -k network
+   601	man -f passwd
+   602	
+   603	--------------------------------------------------
+   604	User information commands
+   605	Sources: man who, man w, man whoami, man id
+   606	
+   607	who:
+   608	who
+   609	who -a
+   610	
+   611	w:
+   612	w
+   613	w -s
+   614	
+   615	whoami:
+   616	whoami
+   617	
+   618	id:
+   619	id
+   620	id -u
+   621	id -Gn
+   622	
+   623	--------------------------------------------------
+   624	sudo — run commands as superuser
+   625	Source: man sudo
+   626	
+   627	Important flags:
+   628	-l   list allowed commands
+   629	-u   run as another user
+   630	-i   login shell as root
+   631	-s   shell as root (current environment)
+   632	-k   invalidate credentials
+   633	
+   634	Examples:
+   635	sudo -l
+   636	sudo -i
+   637	sudo -u nobody whoami
+   638	
+   639	--------------------------------------------------
+   640	Package management
+   641	
+   642	Linux Mint / Debian (APT)
+   643	Source: man apt
+   644	sudo apt update
+   645	sudo apt install package
+   646	sudo apt remove package
+   647	sudo apt purge package
+   648	
+   649	Fedora (DNF)
+   650	Source: man dnf
+   651	sudo dnf install package
+   652	sudo dnf remove package
+   653	sudo dnf upgrade
+   654	
+   655	openSUSE (Zypper)
+   656	Source: man zypper
+   657	sudo zypper install package
+   658	sudo zypper remove package
+   659	sudo zypper update
+   660	sudo zypper dup
+   661	
+   662	--------------------------------------------------
+   663	System control commands
+   664	Sources: man shutdown, man reboot, man poweroff
+   665	
+   666	shutdown now
+   667	shutdown +5
+   668	reboot
+   669	poweroff
+   670	halt
+   671	
+   672	--------------------------------------------------
+   673	============================================================
+   674	EXPANSION OF IDEAS
+   675	PROCESSES VS PROGRAMS
+   676	============================================================
+   677	
+   678	A program is a passive object. It is a file on disk that contains instructions.
+   679	
+   680	A process is a program that is running. It exists in memory and is managed by
+   681	the kernel.
+   682	
+   683	Each process has:
+   684	- A PID (Process ID)
+   685	- A parent process
+   686	- A private memory space
+   687	- An execution state
+   688	
+   689	Linux separates these so one program can be used multiple times at once.
+   690	
+   691	This allows the user or system to kill a process without affecting the program
+   692	file and frees up memory. This enables:
+   693	- Multi-user systems
+   694	- Services restarting automatically
+   695	- System stability
+   696	
+   697	Analogy:
+   698	Program = blueprint
+   699	Process = a building made from that blueprint
+   700	
+   701	
+   702	============================================================
+   703	FORK AND EXEC (HOW LINUX RUNS ANYTHING)
+   704	============================================================
+   705	
+   706	Linux does not "launch programs". It uses a two-step process.
+   707	
+   708	1. fork()
+   709	   - Creates a copy of the current process
+   710	   - Parent and child run independently
+   711	   - The child initially looks identical to the parent
+   712	
+   713	fork exists to provide:
+   714	- Predictable behavior
+   715	- Controlled duplication
+   716	- Safe isolation
+   717	
+   718	2. exec()
+   719	   - Replaces the current process with a new program
+   720	   - PID stays the same
+   721	   - Memory, code, and instructions are swapped out
+   722	
+   723	fork creates a process.
+   724	exec turns it into something useful.
+   725	
+   726	Why Linux splits this:
+   727	- Shells can launch commands and stay alive
+   728	- Background jobs work correctly
+   729	- One crash does not spread upward
+   730	
+   731	PID 1 forks and execs everything else.
+   732	
+   733	
+   734	============================================================
+   735	PROCESS STATES
+   736	============================================================
+   737	
+   738	Most processes are not running.
+   739	
+   740	Common states:
+   741	
+   742	Running:
+   743	- Actively using the CPU
+   744	- Rare and brief
+   745	
+   746	Sleeping:
+   747	- Waiting for I/O (disk, network, user input)
+   748	- Most processes live in this state
+   749	
+   750	Waiting:
+   751	- Waiting for another process or kernel event
+   752	
+   753	Stopped:
+   754	- Paused (example: Ctrl + Z)
+   755	
+   756	Zombie:
+   757	- Finished execution
+   758	- Still has an entry in the process table
+   759	- Waiting for the parent to acknowledge exit
+   760	
+   761	
+   762	============================================================
+   763	WHY ZOMBIES EXIST
+   764	============================================================
+   765	
+   766	A child process remains a zombie until the kernel reports an exit code and
+   767	completion status.
+   768	
+   769	The parent process "reaps" the child.
+   770	
+   771	Zombies are bookkeeping, not active processes.
+   772	
+   773	
+   774	============================================================
+   775	WHY PROCESS STATES MATTER
+   776	============================================================
+   777	
+   778	These different states allow thousands of processes to exist where most are
+   779	sleeping and cost the CPU almost nothing.
+   780	
+   781	This differs from Windows, where background processes are often heavier and more
+   782	CPU-taxing.
+   783	
+   784	Linux also exposes zombie states, allowing you to see what happened after a
+   785	process stops instead of hiding that information.
+   786	
+   787	These features excel in:
+   788	- Server environments
+   789	- Cloud setups
+   790	- Systems where resources are used in bulk
+   791	- Long-lived idle processes
+   792	
+   793	
+   794	Process states are an optimized method the kernel uses to decide who or what
+   795	needs the CPU right now.
+   796
+   797	
+   798	
+   799	
+   800	==========================================================
+   801	
+   802	
+   803	References
+   804	
+   805	Chatgpt 5.2 - ChatGPT.com
+   806	
+   807	DigitalOcean Community Tutorials — https://www.digitalocean.com/community/tutorials
+   808	
+   809	APT guide — https://help.ubuntu.com/community/AptGet/Howto
+   810	
+   811	The Linux Documentation Project — https://tldp.org/
+   812	
+   813	GNU Bash Manual — https://www.gnu.org/software/bash/manual/
+   814	
+   815	Explains Shell Metacharacters (TLDP) — https://tldp.org/LDP/abs/html/special-chars.html
+   816	
+   817	Linux man pages searchable online — https://man7.org/linux/man-pages/
+   818	
+   819	Shell expansion overview — https://www.gnu.org/software/bash/manual/html_node/Expansion.html
+   820	
+   821	Wildcard matching (globbing) — https://man7.org/linux/man-pages/man7/glob.7.html
+   822	
+   823	============================================================

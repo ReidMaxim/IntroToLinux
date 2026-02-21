@@ -1,0 +1,753 @@
+============================================================
+
+## TABLE_OF_CONTENTS
+
+============================================================
+01 HOW_LINUX_HANDLES_FILES
+02 FILE_EXTENSIONS
+03 EXECUTABLE_FILE_TYPES
+04 COMMON_SYSTEM_FILE_TYPES
+05 COMMERCIAL_FILE_TYPES
+06 COMPRESSION_AND_PACKAGE_FORMATS
+07 METACHARACTERS_FOR_FILES
+08 WILDCARD_METACHARACTERS
+09 REGULAR_EXPRESSIONS
+10 FILE_NAMING_BEST_PRACTICES
+11 LINKED_FILES
+12 PIPED_FILES_FIFO
+13 SOCKET_FILES
+14 DEVICE_FILES
+15 SPECIAL_FILE_INDICATORS
+16 SHELL_SCRIPTS
+17 TEXT_FILES_IN_LINUX
+18 VIM_AND_NANO
+19 CAT_AND_TAC
+20 HEAD
+21 TAIL
+22 MORE_AND_LESS
+23 DIFF
+24 OD_OCTAL_DUMP
+25 GREP
+26 EGREP
+27 COMMAND_PIPING
+28 COMMON_PIPE_PATTERNS
+29 PATHNAMES
+30 ABSOLUTE_VS_RELATIVE_PATH
+31 NAVIGATING_THE_FILE_SYSTEM
+32 FILE_COMMAND
+33 TREE_COMMAND
+34 TAB_COMPLETION
+
+
+============================================================
+
+## HOW_LINUX_HANDLES_FILES
+
+============================================================
+
+Linux doesnt require file extension, on the OS/Kernel level mostly treats files as bytes,
+Byte = 8 bits or an Octet from networking class.
+bits are binary (1 and 0's) but bytes are represented as hexadecimal values. 4 bits make exactly make 1 hexadecimal value. 4 bits = a nibble
+
+--At the lowest level (Kernel/OS interactions)--
+Things that Matter. Permissions (can the user read/write/execute?)
+File Meta data (owner, timestamps, etc) File contents (what the Bytes look like)
+Whether or not the File is Executable (has execute bit, or a shebang line) Shebang line is a sequence of characters at the beginning of a script that specifies which interpreter should be used to execute the commands within the script.
+(#! followed by absolute path to the interpreter)
+
+Normally when you click on a .png file
+it opens intended App. this process is normally handled by the desktop environment. it uses an "app-association system"
+The fast and inaccurate way is to just check the file extension. easy and simple for humans or a file system
+but anyone can rename a file to not have lets say a .png extension instead linux tools often inspect files for bytes at the beginning of Script.
+These are called Magic bytes.
+
+--MIME types--
+MIME types are standardized labels
+that web browsers or desktop environments use determine a files type. (image/png, text/plain, application/pdf Audio/mpeg
+you double click a file in a file manager the desktop will figure out the mime type (often via shared libraries)
+looks up preferred default app, launches app with file path.
+this doesn't normally apply to launching from terminal
+you could cat a .png and it will output some jumbled text, mime type is like a lable on a box to give an idea of contents
+
+--Summary--
+Magic bytes = Foundation. At beginning of file to id. format
+Shebangline = the instruction- just for text file tells Kernel how to Execute or what interpreter to use to read and execute script.
+
+--Comparison Table--
+                 magic bytes              she bang              mime type
+visible?         no (binary)              yes (first line)      no (metadata)
+used by?         linux kernel/file cmd    linux kernel/shell    Browser/Desktop UI
+example          0x7F 45 4C 46           #!/bin/bash           application/pdf
+
+Magic Bytes — Identifying Common File Formats at a Glance
+https://netspi.com/blog/technical-blog/web-application-pentesting/magic-bytes-identifying-common-file-formats-at-a-glance
+
+============================================================
+
+## FILE_EXTENSIONS
+
+============================================================
+
+What is A file extension? its a suffix after the last dot in a file name. in linux a file extension is just part of the name the Kernel does not rely on it to decide what a files type is VS windows that does rely on the files extension to know file type and associated programs. in linux its mostly a hint for humans and desktop environments.
+
+Linux doesnt have an exact .exe equivalent.
+instead decides something is runnable based on: Execute permission, File format (Binary VS Script), interpreter or loader availability.
+examples would be: Compiled binaries. (a file with machine code that the computers cpu can execute directly.
+Examples would be: ls, bash, grep, python, firefox... if it is an ELF binary and the execute bit is set... it will run
+an execute bit (x) is a permission flag within linux filesystem's security controlling what actions a user can do to a file or directory "chmod +x filename" to add an execute bit.
+ELF = Executable and Linkable format. its a standard file format for executable programs and libraries.
+
+A file extension is a label on a box. Linux doesn't just trust the label it checks whats inside and whether your allowed to open and run it.
+
+============================================================
+
+## EXECUTABLE_FILE_TYPES
+
+============================================================
+
+--.bin files--
+.bin means binary but it is pretty vague. a .bin file might be a compiled executable, firmware, raw data, an installer payload. A .bin doesnt guarantee an executable. A .bin only runs if its an ELF binary or a script with a shebang line and it has an execute permission.
+
+--.sh files (shell scripts)--
+they are plain text contain shell commands and are executed by a shell (bash, sh, zsh, etc...) they rely on a shebang line (#!/bin/bash) the .sh is not important to have in file name needs execute permission.
+
+--.py files (Python scripts)--
+same idea as .sh but with a python interpreter.
+
+--Comparison Table--
+type       compiled        human readable    need interpreter    Typical use
+.bin       normally yes    no                no                  Program/installers
+.sh        no              yes               yes (shell)         Automation/sys tasks
+.py        no              yes               yes (Python)        Apps/scripts/tools
+
+bin = Machine code .sh, .py = plain text for another program to read.
+
+Find out how Linux knows a file is executable
+https://www.linuxfoundation.org/blog/blog/classic-sysadmin-understanding-linux-file-permissions
+
+============================================================
+
+## COMMON_SYSTEM_FILE_TYPES
+
+============================================================
+
+No extension Common file types you would see in linux: /bin/ls, /sbin/init, /usr/bin/ssh, .conf files like: /etc/ssh/sshd_config Service: nginx.service Shared libraries .dll, Kernel modules /driver.ko logs = .log device rules = .rules .d = directories
+
+A lot of critical system files have no file extension at all. So instead of "if it ends in .exe we run it" Linux say "If you give explicit permission and the file knows how to run then we will run it" prevents accidental executes.
+
+A file extension is a label on a box. Linux doesn't just trust the label it checks whats inside and whether your allowed to open and run it.
+
+============================================================
+
+## COMMERCIAL_FILE_TYPES
+
+============================================================
+
+7 common Commercial tasks
+
+--Word Processing--
+Office, Legal firms, Schools, Corporate
+.docx (Microsoft Word) .odt (LibreOffice Writer) .PDF (finalized documents)
+.txt (Plain text) .rtf (rich text format)
+
+--Spreadsheets--
+Finance, inventory systems, small business, data analysis
+.xlsx (Excel) .ods (LibreOffice Calc) .csv (Comma separated value)
+.tsv (tab separated) .CSV is huge in linux, business and scripting because it is plain text, easy to parse, easy to automate.
+
+--Presentations--
+Sales, Marketing, training and Education.
+.pptx (PowerPoint) .odp (openDocumentPresentation) .PDF .Key (Keynote)
+
+--Communication--
+Corporate Communication, Customer Support, internal messaging
+.eml (email) .msg (Outlook) .pst (outlook archive) .mbox (linux Mail storage format)
+Attachments: .PDF .docx .jpg .zip. Linux servers often store Mail in Mbox format, Maildir Structure (No extension)
+
+--Database/Recordkeeping--
+hospital, HR, government, retail
+.db (database file) .sqlite .mdb .accdb (Access Database)
+.sql (Structured Query language) .json (javaScript object notation)
+.xml (Extensible Markup Language) .sql .json .xml are very commonly used on linux
+
+--Graphic Design--
+Marketing, Social media, advertising, branding. Image formats: .png .jpg .svg .gif
+design project formats: .psd (photoshop) .xcf (gimp) .AI (illustrator)
+.blend (blender)
+
+--Software Dev/Automation--
+tech companies Devops IT department SaaS companies
+.py (Python) .sh (Shell script) .js (JavaScript) .html .css
+Linux heavily utilizes .conf (config files) .sh .py (scripts)
+.service (service files) .so (shared libraries)
+
+============================================================
+
+## COMPRESSION_AND_PACKAGE_FORMATS
+
+============================================================
+
+Other Common file types Compression File type
+.zip (compressed archive format) .tar .gz (Single file not multiple)
+You can .tar multiple files and then .gz the tar
+.7z (7-zip); Strong compression .deb (debian package)
+.rpm (RedHat Package Format) .deb = debian, ubuntu, mint, popos, etc.
+RPM = fedora, RHEL, openSUSE (based)
+
+============================================================
+
+## METACHARACTERS_FOR_FILES
+
+============================================================
+
+Meta Characters Related to Files and File Searching
+
+--File Expansion/Matching--
+* (Matching i.e. ls *.txt = list all files that end in .txt)
+? (matches a single character exactly once) [ ] (matches any one character enclosed in the bracket.
+
+--Path/home--
+~ (home directory) / (directory separator)
+
+--Redirection for Files--
+> (output redirection)
+"ls -l > filelist.txt" = Saves output of "ls -l" to a file named filelist.txt.
+>> (redirects output to a file and adds it to the end of the file.)
+< changes input of command from keyboard to whatever file its now given.
+
+============================================================
+
+## WILDCARD_METACHARACTERS
+
+============================================================
+
+Wildcard MC's are used for filename expansion (globbing) in the shell.
+They match file names in the current directory or specified path.
+the Shell expands them before the command executes
+
+--How this differs from normal meta characters--
+Regular MC: controls shell behavior handles redirection, piping, command chaining affect how commands interact.
+Wildcard Metacharacters: Only match file names, used in globbing expand into actual file names.
+
+--Common WCMC--
+* = (matches zero or more characters)
+? = (matches only one character)
+[ ] = (matches a range or set of characters)
+[! ] = Negation (matches anything except)
+
+What is Globbing and How Do I Use It in Linux?
+https://www.howtogeek.com/what-is-globbing-and-how-do-i-use-it-in-linux/
+
+============================================================
+
+## REGULAR_EXPRESSIONS
+
+============================================================
+
+Regular Expressions (regex)
+
+Pattern Matching rules used inside programs used in things like grep, sed, awk, programming language. "grep "^c.*z$" file.txt"
+
+Match beginnings (^) Match endings ($) Match repetition (.*)
+
+Match patterns with lines,
+
+--How Regex differs from WCMC's--
+wildcard: used by shell, matches filename, simple pattern rule, expands before command
+regular expression: used by tools (grep) match text inside file more powerful, Dont expand file names
+
+A Beginner's Guide to Regular Expressions with Grep (Red Hat)
+https://developers.redhat.com/articles/2022/09/14/beginners-guide-regular-expressions-grep
+
+============================================================
+
+## FILE_NAMING_BEST_PRACTICES
+
+============================================================
+
+How MCs Restrict naming file
+
+MCs have special meaning to the shell. If used in a file name & the shell may interpret them instead of treating them literally, you can use a backslash "\" to tell the shell that the next character should be treated literally.
+i.e. "rm budget202520252025.txt". Some commonly used naming practices: Lowercase letters when possible (stay consistent) Numbers, Hyphens and underscores. Avoid using "-" as the first or "leading" dash the shell will interpret your text as a flag. Avoid spaces and shell MCs altogether if possible (* ? [ ] { } ( ) & | ; > < $ " ' ~ )
+
+Pick your Pattern and stick with it ReidMaxim, Reid_Maxim, reid_maxim. Use ISO date format YYYY-MM-DD. Avoid strange text/characters/emojis stick to plain ascii. Plan for simple and easy usage later on, considering globbing will make using wildcards in the future much easier i.e "report_2025_07.txt" "rm report_2025_*.txt"
+
+============================================================
+
+## LINKED_FILES
+
+============================================================
+
+What is a linked file?
+
+A linked file is another name that refers to an existing files data. It allows multiple file names to point to the same content on disk. There are two types,
+
+--Hard link--
+Another filename pointing to the same "inode" (inode: index node = A file ID card… who owns it, permissions, file size, timestamps, where data is located on disk) a hardlink shares the exact same data on disk, indistinguishable from the original file. How to create: "ln original.txt copy.txt"
+
+to view these in terminal run "ls -l" and expect to see:
+
+"-rw-r--r-- 2 user user 1234 Jan 6 10:00 original.txt"
+"copy.txt"
+
+[type+permissions] [link count] [owner] [group] [size] [date] [name]
+
+Link count shows how many files in directory point to the same inode
+
+--Symbolic Link--
+these are shortcuts, it points to the other files path, can point to directories, breaks if original file is deleted. to create one "ln -s original.txt shortcut.txt"
+
+to view in terminal run "ls -l":
+
+"lrwxrwxrwx 1 user user 12 jan 6 10:05 shortcut.txt -> original.txt"
+
+Linux Linking files and link command
+https://www.youtube.com/watch?v=iM694ESylpE
+
+============================================================
+
+## PIPED_FILES_FIFO
+
+============================================================
+
+A named pipe is a special file used for communication between programs. it lets one program send data directly to another. Think of it as a one way tunnel, one program writes and another reads. it doesnt store data permanently.
+
+Created with: "mkfifo mypipe". Some example usage would be streaming logs between programs, connect to background service that listens to the pipe. it also allows programs to interact using a pipe but they dont have to start at the same time.
+
+============================================================
+
+## SOCKET_FILES
+
+============================================================
+
+Similar to a piped file in the broad sense… but instead of unidirectional communication you have the ability for two programs to talk and read bidirectionally. Often used by databases, webservices, system services.
+
+============================================================
+
+## DEVICE_FILES
+
+============================================================
+
+Linux represents hardware devices as files. Things like harddrives, USB devices, terminals. when programs read or write to these files they are interacting with hardware
+
+============================================================
+
+## SPECIAL_FILE_INDICATORS
+
+============================================================
+
+ls -l cheat sheet (run "ls -l" to see full detail)
+
+Check first letter to see special file indicator.
+
+- = regular file
+d = directory
+l = symlink
+p = named pipe
+s = socket
+b = block device
+c = character device
+
+============================================================
+
+## SHELL_SCRIPTS
+
+============================================================
+
+Shellscript: text file containing shell commands, used for automation instead of typing it all out you can run them all at once.
+
+Run with interpreter ("bash script.sh") or make it an executable chmod +x script.sh ./script.sh
+
+(pipe = hallway passing papers between rooms) (socket = phone line between rooms)
+
+============================================================
+
+## TEXT_FILES_IN_LINUX
+
+============================================================
+
+--How Common are simple text files--
+both are used in windows and linux. plays way more of a role in linux. system configs, logs, scripts, service definitions are all text files. falls back onto the core linux philosophy that everything is a file. windows uses some of these same files (logs, configs, scripts) but many settings are not in a text file but instead are stored in a registry, config files are often hidden from users
+
+--.conf vs .txt vs .csv--
+.txt: Plain text, No structure enforced… often used for notes, logs, documentation, quick export.
+.conf: Configuration files… Still plain text but structured for software to read. .conf implies: the file changes system behavior… caution when editing.
+.csv: (Comma Separated Values) Structured text that represents tabular data. Used for spreadsheets, database exports, data analysis and bulk imports. commonly used in data or business.
+
+--Other Plain text file types--
+.log = log file
+.yaml/.yml = config docs
+.json = structured data
+.xml = structured markup
+.md = markdown
+.sh = shellscript
+.py = python
+
+--Exporting databases to .txt or .CSV--
+both can be done and theres instances where one would be better then the other but most of the time a .CSV file would be the better option.
+
+Strengths: human readable, portable, universally supported, easy to grep
+
+Weakness: no data typing (everything is text) no indexing, slow for big datasets
+
+Dangers: data corruption (commas inside field not properly quoted = broken rows) excel command injection. excel could interpret data as a formula or command (malicious CSV's are a thing). No encryption exporting full database could expose sensitive data.
+
+Performance: large datasets can make millions of rows with no indexing or query optimization could make parsing that much data tough.
+
+CSV injection
+https://www.youtube.com/watch?v=Ww5kfSi7V6I
+
+============================================================
+
+## VIM_AND_NANO
+
+============================================================
+
+Vim and Nano: Terminal text editors
+
+--Vim--
+Vim = Vi Improved. Modes: normal, insert, Visual, Command mode.
+Strengths: Fast and Powerful once mastered, Keyboard only, Works everywhere, Customizable and liked by programmers.
+Weakness: Steep learning curve, could feel hostile to new users
+its said a few times on Reddit: once you go Vim you dont go back.
+
+--Nano--
+A little more beginner friendly.
+Strengths: Simple, instructions at bottom of window, good for quick edits.
+Weakness: Less powerful then Vim, slower for heavy editing, limited advanced features. NANO is like an automatic transmission VS Vim that is a manual transmission
+
+============================================================
+
+## CAT_AND_TAC
+
+============================================================
+
+--Cat - concatenate and display--
+i.e ("cat file.txt")
+
+Flags:
+-n = number all lines
+-b = number non blank lines
+-s = squeeze multiple blank lines
+-E = show $ at end of line
+-T = show tabs as ^I
+-A = show all non-printable characters
+
+Good for a quick file preview / great for debugging.
+Shows trailing spaces and hidden formatting.
+
+cool usage: "cat part1.txt part2.txt > combined.txt"
+
+--tac - reverse cat--
+Prints file in reverse order.
+"tac logfile.txt" Useful because some things like log files might want to be viewed from newest entry… those are at the bottom.
+
+Flags:
+-b = attach separator before
+-s = specify separator
+-r = treat separator as regex
+
+============================================================
+
+## HEAD
+
+============================================================
+
+Head: Shows the first N lines (N = 10 by default)
+
+Use flag "-n" to change amount of lines shown i.e: "head -n20 data.csv"
+
+Flags:
+-n NUM = numbers of lines
+-c NUM = number of bytes
+-v = verbose (always show headers)
+-q = quiet (no headers)
+
+============================================================
+
+## TAIL
+
+============================================================
+
+Tail: Shows last N lines (N = 10 by default)
+
+"tail file.txt" Flags:
+-n NUM = number of lines
+-f = follow file (live update)
+
+cool usage: "tail -f /var/log/syslog" Live Log Monitoring
+
+This is how Sysadmins monitor and debug and watch for Alerts
+
+============================================================
+
+## MORE_AND_LESS
+
+============================================================
+
+--More--
+More is a pager, it shows the file one screen at a time instead of dumping the whole thing. (Space = next page) (Enter = next line) q = quit
+
+--Less--
+the better pager "less file.txt"
+
+You can scroll up or down, search with "/" jump to end with "G" jump to start with "g" highlights search matches (/error)
+
+Flags:
+-N = show line numbers
+-S = disable line wrapping
+-R = allow color codes
+
+============================================================
+
+## DIFF
+
+============================================================
+
+diff: Compares two files line by line.
+
+"diff file1.txt file2.txt" outputs a code line change and
+
+< line from file1
+> line from file2
+
+Flags:
+-u = unified format
+-y = side by side comparison
+-r = compare directories recursively
+-q = only reports if files differ
+
+Usages: Compare config files for changes. Validate rewrites.
+"diff -u old.conf new.conf" — this is how git works internally.
+
+============================================================
+
+## OD_OCTAL_DUMP
+
+============================================================
+
+od (octal dump) (octal format = base 8)
+
+"od file.txt" default is octal flags:
+-c = character
+-x = hex format
+-d = decimal format
+-t = specify
+-A = control address base
+
+Good for debugging: Check for binary corruption, encoding issues, hidden issues,
+
+============================================================
+
+## GREP
+
+============================================================
+
+Grep (global regular Expression print)
+
+Searches for patterns in text and prints matching lines.
+
+"grep "error" file.txt" — prints any line containing the word error.
+
+--Basic grep flags--
+-i = ignore case
+-n = show line numbers
+-v = invert (show lines that dont match)
+-r = recursive (search folders)
+-c = count matches
+-w = match whole word only
+-A 3 = show 3 lines after match
+-B 3 = show 3 lines before match
+-C 3 = show before and after 3 lines
+
+--Examples--
+grep "error" app.log — search logs for "error" make it case insensitive
+grep -i "error" app.log matches error, ERROR, ErRoR.
+grep -n "error" app.log show error and the number line its on.
+grep -c "error" app.log counts errors and prints a number
+grep -C 2 "error" app.log show 2 lines before and after error.
+
+What is grep
+https://www.youtube.com/watch?v=speTBP-NXJo
+
+============================================================
+
+## EGREP
+
+============================================================
+
+Egrep: Allows use of advanced regex without escaping
+
+(egrep "error|fail|critical" app.log) this matches error, fail, critical
+
+egrep is the same thing as "grep -E"
+
+--Example of grep -E--
+Match IP Address
+grep -E "[0-9]+.[0-9]+.[0-9]+.[0-9]+" log.txt
+
+"grep -Ei "error|fail|critical|panic|denied" app.log" ignores case, looks for all words
+
+============================================================
+
+## COMMAND_PIPING
+
+============================================================
+
+Command Piping
+
+take output of left command and feed it to right command
+
+i.e: cat file.txt | grep "error" this prints file, send it to grep, only show lines with error. Not a super useful command because you could just grep the file directly
+
+live errorlog: tail -f app.log | grep "error"
+
+head, tail, less and more are used often as output limiters or viewers, could be thought of as filters on the end of a pipe chain.
+
+Working with Pipes on the Linux Command Line (Red Hat)
+https://www.redhat.com/en/blog/pipes-command-line-linux
+
+============================================================
+
+## COMMON_PIPE_PATTERNS
+
+============================================================
+
+Common Patterns
+
+limit output: grep "fail" bigfile.log | head
+inspect last match: grep "login" auth.log | tail
+interactive browse: grep -r "todo" . | less
+monitor failed login: tail -f /var/log/auth.log | grep "failed password"
+
+============================================================
+
+## PATHNAMES
+
+============================================================
+
+Pathname: full description of where a file or directory lives in file system.
+
+it tells where to start, which directories to go through and what file to access
+
+i.e. /home/silk/projects/notes.txt — pathname
+
+Linux has a single unified directory tree
+it starts with / the forward slash is called root
+everything branches from it, like an upside down tree
+
+/ — Root folder
+|— home — directory under root
+| |— silk — user folder
+| | |— projects — subdirectory
+| | | |— notes.txt — file
+|— etc
+|— var
+|— usr
+
+============================================================
+
+## ABSOLUTE_VS_RELATIVE_PATH
+
+============================================================
+
+Absolute Path always starts at root (/) and gives complete address does not depend on where you are in directory. this path works
+
+Relative Path: starts from your current location
+
+(current location: /home/silk) you can run projects/notes.txt
+
+Subdirectory = directory INSIDE of another directory
+
+Parent directory = A directory with another directory inside of it
+
+============================================================
+
+## NAVIGATING_THE_FILE_SYSTEM
+
+============================================================
+
+--Core Commands--
+Pwd = where am I?
+ls = whats here?
+cd = change directory
+file = what is this thing?
+tree = show structure
+ll = detailed listing shortcut
+
+--Flags for pwd--
+-L = logical (shows path navigated through including symlinks)
+-P = physical resolves symlinks and show path on disk
+
+--cd--
+.. = go up one level in directory
+- = go to previous directory
+
+--ls--
+-l = long format (detailed view)
+-a = show hidden files
+-h = human readable sizes
+-R = recursive
+-t = sort by time
+-r = reverse sort
+-S = sort by size
+
+--Quick example workflow--
+Check to see where i am: pwd (output) /home/silk
+Check the contents of current directory: ls (output) projects downloads
+Change directory to projects: cd projects
+Check to confirm I made it: pwd (output) /home/silk/projects
+
+Navigating the Linux Filesystem (Red Hat)
+https://www.redhat.com/en/blog/navigating-linux-filesystem
+
+============================================================
+
+## FILE_COMMAND
+
+============================================================
+
+file: what is this file
+
+Use file filename and it will output what kind of file it is. Useful for when a file has no extension or just investigating an unknown file.
+
+i.e: file script.sh (output) Bourne-Again shell script
+file mysteryImage (output) PNG image data
+
+Flags:
+-i = show MIME type
+-z = look inside compressed file
+
+============================================================
+
+## TREE_COMMAND
+
+============================================================
+
+Tree: Visual of Directory Structure
+
+Shows folder hierarchy like a tree
+
+Flags:
+-L 2 = limit depth
+-a = show hidden file
+-d = show directories only
+-h = show file size
+
+============================================================
+
+## TAB_COMPLETION
+
+============================================================
+
+When you press tab the shell checks what directory am I in? what files and folders exist here and what ones start with what has currently typed in. this is the process for completing files and directories.
+
+Shell uses similar steps for finding commands it will reference all directories in $PATH and find commands starting with what you typed.
+
+Tab completion increases speed and accuracy and reduces cognitive load
+
+Speed: dont have to type full names
+Accuracy: avoids typos
+Discovery: press tab twice to see list of matching options
+
+============================================================
